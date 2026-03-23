@@ -8,7 +8,7 @@ interface OTPGeneratorProps {
 
 /* ───────── QR Code Display (uses goqr.me public API) ───────── */
 const QRCodeDisplay: React.FC<{ code: string; amount: number }> = ({ code, amount }) => {
-  const qrData = JSON.stringify({ type: 'tokenvault_otp', code, amount, ts: Date.now() });
+  const qrData = JSON.stringify({ type: 'nguni_wallet_otp', code, amount, ts: Date.now() });
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}&bgcolor=0f172a&color=22d3ee&format=svg`;
 
   return (
@@ -137,7 +137,7 @@ const QRScanner: React.FC<{ onScan: (data: string) => void; onClose: () => void 
 
         {/* Footer hint */}
         <div className="p-4 text-center">
-          <p className="text-white/30 text-xs">Point your camera at a TokenVault payment QR code</p>
+          <p className="text-white/30 text-xs">Point your camera at a Nguni-wallet payment QR code</p>
         </div>
       </div>
     </div>
@@ -212,7 +212,7 @@ const OTPGenerator: React.FC<OTPGeneratorProps> = ({ onBack }) => {
     setShowScanner(false);
     try {
       const parsed = JSON.parse(rawData);
-      if (parsed.type === 'tokenvault_otp' && parsed.code) {
+      if (parsed.type === 'nguni_wallet_otp' && parsed.code) {
         setValidateCode(parsed.code);
         setMode('validate');
         // Auto-validate
@@ -433,7 +433,7 @@ const OTPGenerator: React.FC<OTPGeneratorProps> = ({ onBack }) => {
               <ScanLine className="w-8 h-8 text-cyan-400" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Scan to Pay</h3>
-            <p className="text-sm text-white/40 mb-6">Point your camera at a TokenVault payment QR code to instantly validate and complete the payment.</p>
+            <p className="text-sm text-white/40 mb-6">Point your camera at a Nguni-wallet payment QR code to instantly validate and complete the payment.</p>
             <button
               onClick={() => setShowScanner(true)}
               className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-8 py-3.5 rounded-xl font-semibold hover:from-cyan-600 hover:to-teal-600 transition-all shadow-lg shadow-cyan-500/25"

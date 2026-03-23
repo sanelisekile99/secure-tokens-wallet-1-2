@@ -26,7 +26,8 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ onBack }) => {
         t.description?.toLowerCase().includes(q) ||
         t.type.toLowerCase().includes(q) ||
         t.amount.toString().includes(q) ||
-        t.otp_code?.includes(q)
+        t.otp_code?.includes(q) ||
+        t.token_key?.toLowerCase().includes(q)
       );
     }
 
@@ -223,6 +224,11 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ onBack }) => {
                     <p className="text-xs text-white/30">{formatDate(tx.created_at)}</p>
                     {tx.otp_code && (
                       <span className="text-[10px] font-mono text-white/20 bg-white/5 px-1.5 py-0.5 rounded">OTP: {tx.otp_code}</span>
+                    )}
+                    {tx.token_key && (
+                      <span className="text-[10px] font-mono text-cyan-300/70 bg-cyan-500/10 border border-cyan-500/20 px-1.5 py-0.5 rounded">
+                        Key: {tx.token_key}
+                      </span>
                     )}
                   </div>
                 </div>

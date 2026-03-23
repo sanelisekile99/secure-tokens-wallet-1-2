@@ -7,16 +7,15 @@ interface StorePortalProps {
 }
 
 const TOKEN_TO_CASH_RATE = 1;
-const STORE_LOGIN_EMAIL = 'store@tokenvault.local';
+const STORE_LOGIN_EMAIL = 'store@nguni-wallet.local';
 const STORE_LOGIN_PIN = '2468';
+const STORE_DUMMY_RECEIVED_TOKENS = 4650;
 
 const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
   const { transactions } = useWallet();
   const [storeEmail, setStoreEmail] = useState('');
   const [storePin, setStorePin] = useState('');
-  const [storeLoggedIn, setStoreLoggedIn] = useState<boolean>(() => {
-    return sessionStorage.getItem('store_portal_logged_in') === 'true';
-  });
+  const [storeLoggedIn, setStoreLoggedIn] = useState(false);
 
   const [convertInput, setConvertInput] = useState('');
   const [convertedTokens, setConvertedTokens] = useState(0);
@@ -41,14 +40,12 @@ const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
     }
 
     setStoreLoggedIn(true);
-    sessionStorage.setItem('store_portal_logged_in', 'true');
     setStorePin('');
     setSuccess('Store login successful.');
   };
 
   const handleStoreLogout = () => {
     setStoreLoggedIn(false);
-    sessionStorage.removeItem('store_portal_logged_in');
     setStoreEmail('');
     setStorePin('');
     setSuccess('');
@@ -57,7 +54,26 @@ const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
 
   useEffect(() => {
     const saved = localStorage.getItem('store_wallet_state');
-    if (!saved) return;
+    
+    // If no saved state, initialize with dummy data
+    if (!saved) {
+      const dummyData = {
+        convertedTokens: 1250,
+        cashAvailable: 3400,
+        cashTransferred: 2500,
+        bankName: 'First National Bank',
+        accountName: 'Nguni-wallet Store',
+        accountNumber: '6234891234567',
+      };
+      localStorage.setItem('store_wallet_state', JSON.stringify(dummyData));
+      setConvertedTokens(dummyData.convertedTokens);
+      setCashAvailable(dummyData.cashAvailable);
+      setCashTransferred(dummyData.cashTransferred);
+      setBankName(dummyData.bankName);
+      setAccountName(dummyData.accountName);
+      setAccountNumber(dummyData.accountNumber);
+      return;
+    }
 
     try {
       const parsed = JSON.parse(saved);
@@ -87,9 +103,11 @@ const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
   }, [convertedTokens, cashAvailable, cashTransferred, bankName, accountName, accountNumber]);
 
   const receivedTokens = useMemo(() => {
-    return transactions
+    const liveReceivedTokens = transactions
       .filter((tx) => tx.type === 'received' && tx.status === 'completed')
       .reduce((sum, tx) => sum + Number(tx.amount), 0);
+
+    return liveReceivedTokens > 0 ? liveReceivedTokens : STORE_DUMMY_RECEIVED_TOKENS;
   }, [transactions]);
 
   const availableToConvert = Math.max(0, receivedTokens - convertedTokens);

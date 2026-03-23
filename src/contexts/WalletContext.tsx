@@ -1,12 +1,18 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
+const SUPER_ADMIN_EMAIL = 'admin@nguni-wallet.local';
+const SUPER_ADMIN_PIN = '9999';
+
+export type UserRole = 'user' | 'super_admin';
+
 export interface User {
   id: string;
   email: string;
   full_name: string;
   phone: string | null;
   avatar_color: string;
+  role?: UserRole;
 }
 
 export interface Transaction {
@@ -18,6 +24,7 @@ export interface Transaction {
   status: 'pending' | 'completed' | 'failed' | 'expired';
   recipient_info: string | null;
   otp_code: string | null;
+  token_key?: string;
   created_at: string;
 }
 
@@ -50,6 +57,7 @@ interface WalletContextType {
   otps: OTP[];
   loading: boolean;
   isAuthenticated: boolean;
+  isSuperAdmin: boolean;
   login: (email: string, pin: string) => Promise<{ success: boolean; error?: string }>;
   register: (email: string, fullName: string, phone: string, pin: string) => Promise<{ success: boolean; error?: string; message?: string }>;
   logout: () => void;
@@ -70,6 +78,105 @@ export const useWallet = () => useContext(WalletContext);
 const normalizeCurrency = (value?: string | null) => {
   if (!value || value === 'USD') return 'ZAR';
   return value;
+};
+
+const buildTokenKey = (transaction: Transaction) => {
+  if (transaction.token_key) return transaction.token_key;
+
+  const typeCode = transaction.type.slice(0, 3).toUpperCase();
+  const dateCode = new Date(transaction.created_at).toISOString().slice(2, 10).replace(/-/g, '');
+  const idCode = transaction.id.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(-6).padStart(6, '0');
+  return `NGW-${typeCode}-${dateCode}-${idCode}`;
+};
+
+const withTokenKeys = (items: Transaction[]) =>
+  items.map((transaction) => ({
+    ...transaction,
+    token_key: buildTokenKey(transaction),
+  }));
+
+const buildDummyTransactions = (userId: string): Transaction[] => {
+  const now = Date.now();
+  const oneDay = 1000 * 60 * 60 * 24;
+  const transactions: Transaction[] = [];
+
+  const templates = [
+    { type: 'purchase' as const, amount: 300, status: 'completed' as const, hasOtp: false, desc: 'Token purchase' },
+    { type: 'payment' as const, amount: 85, status: 'completed' as const, hasOtp: true, desc: 'Coffee shop payment' },
+    { type: 'purchase' as const, amount: 500, status: 'completed' as const, hasOtp: false, desc: 'Token top-up' },
+    { type: 'payment' as const, amount: 150, status: 'completed' as const, hasOtp: true, desc: 'Restaurant payment' },
+    { type: 'received' as const, amount: 200, status: 'completed' as const, hasOtp: false, desc: 'Refund received' },
+    { type: 'payment' as const, amount: 75, status: 'completed' as const, hasOtp: true, desc: 'Retail store' },
+    { type: 'purchase' as const, amount: 250, status: 'completed' as const, hasOtp: false, desc: 'Token purchase' },
+    { type: 'payment' as const, amount: 120, status: 'completed' as const, hasOtp: true, desc: 'Online purchase' },
+  ];
+
+  for (let day = 0; day < 7; day++) {
+    const dayStart = now - (day * oneDay);
+
+    for (let i = 0; i < 2; i++) {
+      const hour = Math.floor(Math.random() * 24);
+      const minute = Math.floor(Math.random() * 60);
+      const txnTime = dayStart - (hour * 1000 * 60 * 60 + minute * 1000 * 60);
+      const template = templates[(day * 2 + i) % templates.length];
+
+      transactions.push({
+        id: `dummy-txn-${day}-${i}`,
+        user_id: userId,
+        type: template.type,
+        amount: template.amount + Math.floor(Math.random() * 100),
+        description: template.desc,
+        status: template.status,
+        recipient_info: template.type === 'payment' ? `Merchant ${50 + day * 2 + i}` : null,
+        otp_code: template.hasOtp ? Math.floor(100000 + Math.random() * 900000).toString() : null,
+        created_at: new Date(txnTime).toISOString(),
+      });
+    }
+  }
+
+  return transactions.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+};
+
+const buildAdminTransactions = (userId: string): Transaction[] => {
+  const now = Date.now();
+  const oneDay = 1000 * 60 * 60 * 24;
+  const transactions: Transaction[] = [];
+
+  const templates = [
+    { type: 'payment' as const, amount: 6200, status: 'pending' as const, hasOtp: true, desc: 'High-value pending transfer' },
+    { type: 'payment' as const, amount: 3400, status: 'failed' as const, hasOtp: true, desc: 'Failed payment retry' },
+    { type: 'purchase' as const, amount: 250, status: 'completed' as const, hasOtp: false, desc: 'Token purchase' },
+    { type: 'payment' as const, amount: 8100, status: 'completed' as const, hasOtp: true, desc: 'Large payment settlement' },
+    { type: 'received' as const, amount: 1500, status: 'completed' as const, hasOtp: false, desc: 'Transfer received' },
+    { type: 'payment' as const, amount: 2800, status: 'failed' as const, hasOtp: true, desc: 'Transaction failed' },
+    { type: 'purchase' as const, amount: 400, status: 'completed' as const, hasOtp: false, desc: 'Token top-up' },
+    { type: 'payment' as const, amount: 5500, status: 'pending' as const, hasOtp: true, desc: 'Pending merchant payment' },
+  ];
+
+  for (let day = 0; day < 7; day++) {
+    const dayStart = now - (day * oneDay);
+
+    for (let i = 0; i < 3; i++) {
+      const hour = Math.floor(Math.random() * 24);
+      const minute = Math.floor(Math.random() * 60);
+      const txnTime = dayStart - (hour * 1000 * 60 * 60 + minute * 1000 * 60);
+      const template = templates[(day * 3 + i) % templates.length];
+
+      transactions.push({
+        id: `admin-txn-${day}-${i}`,
+        user_id: userId,
+        type: template.type,
+        amount: template.amount + Math.floor(Math.random() * 500),
+        description: template.desc,
+        status: template.status,
+        recipient_info: template.type === 'payment' ? `Merchant ${100 + day * 3 + i}` : null,
+        otp_code: template.hasOtp ? Math.floor(100000 + Math.random() * 900000).toString() : null,
+        created_at: new Date(txnTime).toISOString(),
+      });
+    }
+  }
+
+  return transactions.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 };
 
 const resolveFunctionError = async (error: any, fallback: string) => {
@@ -110,10 +217,16 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [loading, setLoading] = useState(false);
 
   const isAuthenticated = !!user;
+  const isSuperAdmin = user?.role === 'super_admin';
 
   useEffect(() => {
     if (user) {
       localStorage.setItem('wallet_user', JSON.stringify(user));
+
+      if (user.role === 'super_admin') {
+        return;
+      }
+
       refreshBalance();
       refreshTransactions();
       refreshCards();
@@ -126,6 +239,26 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const login = useCallback(async (email: string, pin: string) => {
     setLoading(true);
     try {
+      const normalizedEmail = email.trim().toLowerCase();
+      if (normalizedEmail === SUPER_ADMIN_EMAIL && pin === SUPER_ADMIN_PIN) {
+        const superAdminUser: User = {
+          id: 'super-admin-local',
+          email: SUPER_ADMIN_EMAIL,
+          full_name: 'Super Admin',
+          phone: null,
+          avatar_color: '#7C3AED',
+          role: 'super_admin',
+        };
+
+        setUser(superAdminUser);
+        setBalance(100000);
+        setCurrency('ZAR');
+        setTransactions(withTokenKeys(buildAdminTransactions(superAdminUser.id)));
+        setCards([]);
+        setOtps([]);
+        return { success: true };
+      }
+
       const { data, error } = await supabase.functions.invoke('wallet-auth', {
         body: { action: 'login', email, pin }
       });
@@ -193,10 +326,11 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         body: { action: 'get_transactions', user_id: user.id, limit: 50, type_filter: typeFilter || 'all' }
       });
       if (data?.transactions) {
-        setTransactions(data.transactions);
+        setTransactions(withTokenKeys(data.transactions.length > 0 ? data.transactions : buildDummyTransactions(user.id)));
       }
     } catch (err) {
       console.error('Failed to refresh transactions:', err);
+      setTransactions(withTokenKeys(buildDummyTransactions(user.id)));
     }
   }, [user?.id]);
 
@@ -307,7 +441,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   return (
     <WalletContext.Provider value={{
-      user, balance, currency, transactions, cards, otps, loading, isAuthenticated,
+      user, balance, currency, transactions, cards, otps, loading, isAuthenticated, isSuperAdmin,
       login, register, logout, purchaseTokens, generateOTP, validateOTP,
       addCard, refreshBalance, refreshTransactions, refreshCards, refreshOTPs
     }}>

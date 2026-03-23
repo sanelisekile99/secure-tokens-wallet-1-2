@@ -21,7 +21,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/20">
             <Shield className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-bold text-white tracking-tight">TokenVault</span>
+          <span className="text-xl font-bold text-white tracking-tight">Nguni-wallet</span>
         </div>
         <div className="hidden md:flex items-center gap-8">
           <a href="#features" className="text-sm text-white/50 hover:text-white/80 transition-colors">Features</a>
@@ -92,7 +92,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-2">
                     <Shield className="w-6 h-6 text-white/60" />
-                    <span className="text-white/60 font-medium">TokenVault</span>
+                    <span className="text-white/60 font-medium">Nguni-wallet</span>
                   </div>
                   <span className="text-xs text-white/30">DIGITAL WALLET</span>
                 </div>
@@ -189,7 +189,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             <div>
               <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Security First</h2>
               <p className="text-white/40 mb-8 leading-relaxed">
-                Every layer of TokenVault is built with security at its core. From encrypted storage to zero-knowledge authentication, your funds are always protected.
+                Every layer of Nguni-wallet is built with security at its core. From encrypted storage to zero-knowledge authentication, your funds are always protected.
               </p>
               <div className="space-y-4">
                 {[
@@ -241,7 +241,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 mb-3">
                 <Shield className="w-5 h-5 text-blue-400" />
-                <span className="font-bold text-white">TokenVault</span>
+                <span className="font-bold text-white">Nguni-wallet</span>
               </div>
               <p className="text-xs text-white/30 leading-relaxed">Secure digital payments for the modern world.</p>
             </div>
@@ -271,7 +271,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             </div>
           </div>
           <div className="border-t border-white/5 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-white/20">2026 TokenVault. All rights reserved.</p>
+            <p className="text-xs text-white/20">2026 Nguni-wallet. All rights reserved.</p>
             <div className="flex items-center gap-1">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-xs text-white/20">All systems operational</span>

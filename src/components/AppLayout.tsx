@@ -16,7 +16,7 @@ import {
 type ViewType = 'dashboard' | 'purchase' | 'otp' | 'history' | 'store' | 'settings';
 
 const AppLayout: React.FC = () => {
-  const { isAuthenticated, user, balance, logout } = useWallet();
+  const { isAuthenticated, isSuperAdmin, user, balance, logout } = useWallet();
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
@@ -62,14 +62,16 @@ const AppLayout: React.FC = () => {
     );
   }
 
-  const navItems: { id: ViewType; label: string; icon: React.ElementType }[] = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'purchase', label: 'Buy Tokens', icon: CreditCard },
-    { id: 'otp', label: 'Pay with OTP', icon: Zap },
-    { id: 'history', label: 'History', icon: Clock },
-    { id: 'store', label: 'Store Side', icon: Wallet },
-    { id: 'settings', label: 'Settings', icon: SettingsIcon },
-  ];
+  const navItems: { id: ViewType; label: string; icon: React.ElementType }[] = isSuperAdmin
+    ? [{ id: 'dashboard', label: 'Analytics', icon: LayoutDashboard }]
+    : [
+        { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+        { id: 'purchase', label: 'Buy Tokens', icon: CreditCard },
+        { id: 'otp', label: 'Pay with OTP', icon: Zap },
+        { id: 'history', label: 'History', icon: Clock },
+        { id: 'store', label: 'Store Side', icon: Wallet },
+        { id: 'settings', label: 'Settings', icon: SettingsIcon },
+      ];
 
   const initials = user?.full_name?.split(' ').map(n => n[0]).join('').toUpperCase() || 'U';
 
@@ -78,11 +80,21 @@ const AppLayout: React.FC = () => {
   };
 
   const handleNavigate = (view: string) => {
+    if (isSuperAdmin) {
+      setCurrentView('dashboard');
+      setSidebarOpen(false);
+      return;
+    }
+
     setCurrentView(view as ViewType);
     setSidebarOpen(false);
   };
 
   const renderView = () => {
+    if (isSuperAdmin) {
+      return <Dashboard onNavigate={handleNavigate} isSuperAdmin />;
+    }
+
     switch (currentView) {
       case 'purchase':
         return <TokenPurchase onBack={() => setCurrentView('dashboard')} />;
@@ -95,7 +107,7 @@ const AppLayout: React.FC = () => {
       case 'settings':
         return <Settings onBack={() => setCurrentView('dashboard')} />;
       default:
-        return <Dashboard onNavigate={handleNavigate} />;
+        return <Dashboard onNavigate={handleNavigate} isSuperAdmin={false} />;
     }
   };
 
@@ -122,7 +134,7 @@ const AppLayout: React.FC = () => {
                   <Shield className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-lg font-bold text-white tracking-tight">TokenVault</h1>
+                  <h1 className="text-lg font-bold text-white tracking-tight">Nguni-wallet</h1>
                   <p className="text-[10px] text-white/30 uppercase tracking-widest">Secure Wallet</p>
                 </div>
               </div>
@@ -148,6 +160,11 @@ const AppLayout: React.FC = () => {
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-white truncate">{user?.full_name}</p>
                   <p className="text-xs text-white/30 truncate">{user?.email}</p>
+                  {isSuperAdmin && (
+                    <span className="inline-flex mt-1 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">
+                      Super Admin
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="bg-white/5 rounded-lg p-3">
@@ -208,11 +225,13 @@ const AppLayout: React.FC = () => {
               </button>
               <div className="lg:hidden flex items-center gap-2">
                 <Shield className="w-5 h-5 text-blue-400" />
-                <span className="font-bold text-white text-sm">TokenVault</span>
+                <span className="font-bold text-white text-sm">Nguni-wallet</span>
               </div>
               <div className="hidden lg:block">
                 <h2 className="text-lg font-bold text-white capitalize">
-                  {currentView === 'otp'
+                  {isSuperAdmin
+                    ? 'Analytics'
+                    : currentView === 'otp'
                     ? 'Payment OTP'
                     : currentView === 'purchase'
                     ? 'Buy Tokens'
@@ -258,7 +277,7 @@ const AppLayout: React.FC = () => {
               <div className="md:col-span-1">
                 <div className="flex items-center gap-2 mb-3">
                   <Shield className="w-5 h-5 text-blue-400" />
-                  <span className="font-bold text-white">TokenVault</span>
+                  <span className="font-bold text-white">Nguni-wallet</span>
                 </div>
                 <p className="text-xs text-white/30 leading-relaxed">
                   Secure digital payment platform with encrypted token storage and one-time payment codes.
@@ -267,7 +286,10 @@ const AppLayout: React.FC = () => {
               <div>
                 <h4 className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3">Product</h4>
                 <ul className="space-y-2">
-                  {['Digital Tokens', 'OTP Payments', 'Card Linking', 'Transaction History'].map(item => (
+                  {(isSuperAdmin
+                    ? ['Analytics Overview', 'Fraud Monitoring']
+                    : ['Digital Tokens', 'OTP Payments', 'Card Linking', 'Transaction History']
+                  ).map(item => (
                     <li key={item}>
                       <button onClick={() => handleNavigate(item === 'Digital Tokens' ? 'purchase' : item === 'OTP Payments' ? 'otp' : item === 'Transaction History' ? 'history' : 'dashboard')} className="text-xs text-white/30 hover:text-white/60 transition-colors">{item}</button>
                     </li>
@@ -296,7 +318,7 @@ const AppLayout: React.FC = () => {
               </div>
             </div>
             <div className="border-t border-white/5 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <p className="text-xs text-white/20">2026 TokenVault. All rights reserved.</p>
+              <p className="text-xs text-white/20">2026 Nguni-wallet. All rights reserved.</p>
               <div className="flex items-center gap-1">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 <span className="text-xs text-white/20">All systems operational</span>

@@ -52,7 +52,7 @@ const LoginRegister: React.FC = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/25 mb-4">
             <Shield className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">TokenVault</h1>
+          <h1 className="text-3xl font-bold text-white tracking-tight">Nguni-wallet</h1>
           <p className="text-blue-300/70 mt-1 text-sm">Secure Digital Payments</p>
           <p className="text-blue-300/40 mt-2 text-xs">Use the same email and PIN for Wallet and Store Side</p>
         </div>
@@ -232,8 +232,12 @@ const LoginRegister: React.FC = () => {
         </div>
 
         {/* Footer */}
+        <div className="mt-4 bg-violet-500/10 border border-violet-500/20 rounded-xl p-3">
+          <p className="text-[11px] text-violet-300/80">Super Admin (demo): admin@nguni-wallet.local / 9999</p>
+        </div>
+
         <p className="text-center text-blue-300/20 text-xs mt-6">
-          TokenVault v1.0 · Secure Digital Payments Platform
+          Nguni-wallet v1.0 · Secure Digital Payments Platform
         </p>
       </div>
     </div>
