@@ -49,7 +49,11 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ onBack }) => {
   }, [transactions, searchQuery, sortOrder]);
 
   const formatTokens = (amount: number) => {
-    return `${new Intl.NumberFormat('en-ZA', { maximumFractionDigits: 2 }).format(amount)} tokens`;
+    return new Intl.NumberFormat('en-ZA', {
+      style: 'currency',
+      currency: 'ZAR',
+      maximumFractionDigits: 2,
+    }).format(amount);
   };
 
   const formatDate = (dateStr: string) => {
@@ -71,7 +75,7 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ onBack }) => {
     switch (type) {
       case 'purchase': return 'text-green-400 bg-green-400/10';
       case 'payment': return 'text-orange-400 bg-orange-400/10';
-      case 'received': return 'text-blue-400 bg-blue-400/10';
+      case 'received': return 'text-pink-400 bg-pink-400/10';
       default: return 'text-gray-400 bg-gray-400/10';
     }
   };
@@ -142,11 +146,11 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ onBack }) => {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search transactions..."
-            className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-blue-500/50 transition-all"
+            className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-pink-500/50 transition-all"
           />
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className={`absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-lg transition-colors ${showFilters ? 'bg-blue-500/20 text-blue-400' : 'text-white/30 hover:text-white/50'}`}
+            className={`absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-lg transition-colors ${showFilters ? 'bg-pink-500/20 text-pink-400' : 'text-white/30 hover:text-white/50'}`}
           >
             <Filter className="w-4 h-4" />
           </button>
@@ -163,7 +167,7 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ onBack }) => {
                     onClick={() => setTypeFilter(f.value)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       typeFilter === f.value
-                        ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                        ? 'bg-pink-500/20 text-pink-400 border border-pink-500/30'
                         : 'bg-white/5 text-white/40 border border-white/10 hover:text-white/60'
                     }`}
                   >
@@ -186,7 +190,7 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ onBack }) => {
                     onClick={() => setSortOrder(s.value as any)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       sortOrder === s.value
-                        ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                        ? 'bg-pink-500/20 text-pink-400 border border-pink-500/30'
                         : 'bg-white/5 text-white/40 border border-white/10 hover:text-white/60'
                     }`}
                   >
@@ -226,7 +230,7 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ onBack }) => {
                       <span className="text-[10px] font-mono text-white/20 bg-white/5 px-1.5 py-0.5 rounded">OTP: {tx.otp_code}</span>
                     )}
                     {tx.token_key && (
-                      <span className="text-[10px] font-mono text-cyan-300/70 bg-cyan-500/10 border border-cyan-500/20 px-1.5 py-0.5 rounded">
+                      <span className="text-[10px] font-mono text-rose-300/70 bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded">
                         Key: {tx.token_key}
                       </span>
                     )}
@@ -236,7 +240,7 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ onBack }) => {
                   <p className={`text-sm font-semibold ${
                     tx.type === 'purchase' || tx.type === 'received' ? 'text-green-400' : 'text-white/70'
                   }`}>
-                    {tx.type === 'purchase' || tx.type === 'received' ? '+' : '-'}{formatTokens(Number(tx.amount))}
+                    {formatTokens(Number(tx.amount))}
                   </p>
                   <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full border ${getStatusStyle(tx.status)}`}>
                     {tx.status}

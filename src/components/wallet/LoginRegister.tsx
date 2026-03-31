@@ -14,11 +14,13 @@ const LoginRegister: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const isInvalidPin = (value: string) => value.length !== 4 || value === '0000';
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     if (!email || !pin) { setError('Please fill in all fields'); return; }
-    if (pin.length < 4) { setError('PIN must be at least 4 digits'); return; }
+    if (isInvalidPin(pin)) { setError('PIN must be exactly 4 digits and cannot be 0000'); return; }
     const result = await login(email, pin);
     if (!result.success) setError(result.error || 'Login failed');
   };
@@ -27,7 +29,7 @@ const LoginRegister: React.FC = () => {
     e.preventDefault();
     setError('');
     if (!email || !fullName || !pin) { setError('Please fill in all required fields'); return; }
-    if (pin.length < 4) { setError('PIN must be at least 4 digits'); return; }
+    if (isInvalidPin(pin)) { setError('PIN must be exactly 4 digits and cannot be 0000'); return; }
     if (pin !== confirmPin) { setError('PINs do not match'); return; }
     const result = await register(email, fullName, phone, pin);
     if (!result.success) {
@@ -38,23 +40,23 @@ const LoginRegister: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-pink-950 to-slate-900 flex items-center justify-center p-4">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-20 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 -left-20 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-fuchsia-500/5 rounded-full blur-3xl" />
       </div>
 
       <div className="w-full max-w-md relative z-10">
         {/* Logo & Branding */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/25 mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-400 shadow-lg shadow-pink-500/25 mb-4">
             <Shield className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-white tracking-tight">Nguni-wallet</h1>
-          <p className="text-blue-300/70 mt-1 text-sm">Secure Digital Payments</p>
-          <p className="text-blue-300/40 mt-2 text-xs">Use the same email and PIN for Wallet and Store Side</p>
+          <p className="text-pink-300/70 mt-1 text-sm">Secure Digital Payments</p>
+          <p className="text-pink-300/40 mt-2 text-xs">Use the same email and PIN for Wallet and Store Side</p>
         </div>
 
         {/* Card */}
@@ -64,7 +66,7 @@ const LoginRegister: React.FC = () => {
             <button
               onClick={() => { setMode('login'); setError(''); setSuccess(''); }}
               className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
-                mode === 'login' ? 'bg-blue-500 text-white shadow-lg' : 'text-blue-300/60 hover:text-white'
+                mode === 'login' ? 'bg-pink-500 text-white shadow-lg' : 'text-pink-300/60 hover:text-white'
               }`}
             >
               <LogIn className="w-4 h-4" /> Sign In
@@ -72,7 +74,7 @@ const LoginRegister: React.FC = () => {
             <button
               onClick={() => { setMode('register'); setError(''); setSuccess(''); }}
               className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
-                mode === 'register' ? 'bg-blue-500 text-white shadow-lg' : 'text-blue-300/60 hover:text-white'
+                mode === 'register' ? 'bg-pink-500 text-white shadow-lg' : 'text-pink-300/60 hover:text-white'
               }`}
             >
               <UserPlus className="w-4 h-4" /> Register
@@ -93,30 +95,31 @@ const LoginRegister: React.FC = () => {
           {mode === 'login' ? (
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label className="text-xs font-medium text-blue-300/60 uppercase tracking-wider mb-1.5 block">Email</label>
+                <label className="text-xs font-medium text-pink-300/60 uppercase tracking-wider mb-1.5 block">Email</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400/40" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-400/40" />
                   <input
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 focus:ring-1 focus:ring-pink-500/25 transition-all text-sm"
                   />
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-blue-300/60 uppercase tracking-wider mb-1.5 block">Security PIN</label>
+                <label className="text-xs font-medium text-pink-300/60 uppercase tracking-wider mb-1.5 block">Security PIN</label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400/40" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-400/40" />
                   <input
                     type={showPin ? 'text' : 'password'}
                     value={pin}
-                    onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                    placeholder="Enter 4-6 digit PIN"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-12 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all text-sm tracking-[0.3em]"
+                    onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                    placeholder="Enter 4-digit PIN"
+                    maxLength={4}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-12 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 focus:ring-1 focus:ring-pink-500/25 transition-all text-sm tracking-[0.3em]"
                   />
-                  <button type="button" onClick={() => setShowPin(!showPin)} className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-400/40 hover:text-blue-400 transition-colors">
+                  <button type="button" onClick={() => setShowPin(!showPin)} className="absolute right-3 top-1/2 -translate-y-1/2 text-pink-400/40 hover:text-pink-400 transition-colors">
                     {showPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
@@ -124,7 +127,7 @@ const LoginRegister: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3.5 rounded-xl font-semibold text-sm hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 flex items-center justify-center gap-2 mt-6"
+                className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3.5 rounded-xl font-semibold text-sm hover:from-pink-600 hover:to-rose-600 transition-all shadow-lg shadow-pink-500/25 disabled:opacity-50 flex items-center justify-center gap-2 mt-6"
               >
                 {loading ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -136,74 +139,76 @@ const LoginRegister: React.FC = () => {
           ) : (
             <form onSubmit={handleRegister} className="space-y-4">
               <div>
-                <label className="text-xs font-medium text-blue-300/60 uppercase tracking-wider mb-1.5 block">Full Name *</label>
+                <label className="text-xs font-medium text-pink-300/60 uppercase tracking-wider mb-1.5 block">Full Name *</label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400/40" />
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-400/40" />
                   <input
                     type="text"
                     value={fullName}
                     onChange={e => setFullName(e.target.value)}
                     placeholder="John Doe"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 focus:ring-1 focus:ring-pink-500/25 transition-all text-sm"
                   />
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-blue-300/60 uppercase tracking-wider mb-1.5 block">Email *</label>
+                <label className="text-xs font-medium text-pink-300/60 uppercase tracking-wider mb-1.5 block">Email *</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400/40" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-400/40" />
                   <input
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 focus:ring-1 focus:ring-pink-500/25 transition-all text-sm"
                   />
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-blue-300/60 uppercase tracking-wider mb-1.5 block">Phone</label>
+                <label className="text-xs font-medium text-pink-300/60 uppercase tracking-wider mb-1.5 block">Phone</label>
                 <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400/40" />
+                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-400/40" />
                   <input
                     type="tel"
                     value={phone}
                     onChange={e => setPhone(e.target.value)}
                     placeholder="+1 (555) 123-4567"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 focus:ring-1 focus:ring-pink-500/25 transition-all text-sm"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-medium text-blue-300/60 uppercase tracking-wider mb-1.5 block">PIN *</label>
+                  <label className="text-xs font-medium text-pink-300/60 uppercase tracking-wider mb-1.5 block">PIN *</label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400/40" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-400/40" />
                     <input
                       type={showPin ? 'text' : 'password'}
                       value={pin}
-                      onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                      placeholder="4-6 digits"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all text-sm tracking-[0.3em]"
+                      onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                      placeholder="4 digits"
+                      maxLength={4}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 focus:ring-1 focus:ring-pink-500/25 transition-all text-sm tracking-[0.3em]"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-blue-300/60 uppercase tracking-wider mb-1.5 block">Confirm *</label>
+                  <label className="text-xs font-medium text-pink-300/60 uppercase tracking-wider mb-1.5 block">Confirm *</label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400/40" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-400/40" />
                     <input
                       type={showPin ? 'text' : 'password'}
                       value={confirmPin}
-                      onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                      onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
                       placeholder="Repeat"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all text-sm tracking-[0.3em]"
+                      maxLength={4}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 focus:ring-1 focus:ring-pink-500/25 transition-all text-sm tracking-[0.3em]"
                     />
                   </div>
                 </div>
               </div>
               <div className="flex items-center gap-2 mt-1">
-                <button type="button" onClick={() => setShowPin(!showPin)} className="text-blue-400/50 hover:text-blue-400 text-xs flex items-center gap-1 transition-colors">
+                <button type="button" onClick={() => setShowPin(!showPin)} className="text-pink-400/50 hover:text-pink-400 text-xs flex items-center gap-1 transition-colors">
                   {showPin ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
                   {showPin ? 'Hide PIN' : 'Show PIN'}
                 </button>
@@ -211,7 +216,7 @@ const LoginRegister: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3.5 rounded-xl font-semibold text-sm hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
+                className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3.5 rounded-xl font-semibold text-sm hover:from-pink-600 hover:to-rose-600 transition-all shadow-lg shadow-pink-500/25 disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
               >
                 {loading ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -224,7 +229,7 @@ const LoginRegister: React.FC = () => {
 
           {/* Security note */}
           <div className="mt-6 pt-5 border-t border-white/5">
-            <div className="flex items-center gap-2 text-blue-300/30 text-xs">
+            <div className="flex items-center gap-2 text-pink-300/30 text-xs">
               <Shield className="w-3.5 h-3.5" />
               <span>256-bit encrypted · PIN secured · Zero-knowledge auth</span>
             </div>
@@ -232,11 +237,11 @@ const LoginRegister: React.FC = () => {
         </div>
 
         {/* Footer */}
-        <div className="mt-4 bg-violet-500/10 border border-violet-500/20 rounded-xl p-3">
-          <p className="text-[11px] text-violet-300/80">Super Admin (demo): admin@nguni-wallet.local / 9999</p>
+        <div className="mt-4 bg-pink-500/10 border border-pink-500/20 rounded-xl p-3">
+          <p className="text-[11px] text-pink-300/80">Super Admin (demo): admin@nguni-wallet.local / 9999</p>
         </div>
 
-        <p className="text-center text-blue-300/20 text-xs mt-6">
+        <p className="text-center text-pink-300/20 text-xs mt-6">
           Nguni-wallet v1.0 · Secure Digital Payments Platform
         </p>
       </div>

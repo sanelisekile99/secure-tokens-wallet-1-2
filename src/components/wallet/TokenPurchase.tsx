@@ -43,7 +43,7 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
     setProcessing(false);
 
     if (result.success) {
-      setSuccess(`Successfully purchased ${amount.toFixed(2)} tokens!`);
+      setSuccess(`Successfully purchased ${formatPrice(amount)} of tokens!`);
       setSelectedAmount(null);
       setCustomAmount('');
     } else {
@@ -86,12 +86,19 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
 
   const getCardIcon = (type: string) => {
     const colors: Record<string, string> = {
-      visa: 'from-blue-600 to-blue-800',
+      visa: 'from-pink-600 to-pink-800',
       mastercard: 'from-red-500 to-orange-500',
       amex: 'from-slate-600 to-slate-800',
       discover: 'from-orange-500 to-yellow-500'
     };
     return colors[type] || 'from-gray-600 to-gray-800';
+  };
+
+  const formatPrice = (amount: number) => {
+    return new Intl.NumberFormat('en-ZA', {
+      style: 'currency',
+      currency: 'ZAR',
+    }).format(amount);
   };
 
   return (
@@ -132,17 +139,17 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
               onClick={() => { setSelectedAmount(amount); setCustomAmount(''); }}
               className={`relative p-4 rounded-xl border transition-all text-center group ${
                 selectedAmount === amount
-                  ? 'bg-blue-500/20 border-blue-500/50 shadow-lg shadow-blue-500/10'
+                  ? 'bg-pink-500/20 border-pink-500/50 shadow-lg shadow-pink-500/10'
                   : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
               }`}
             >
               {selectedAmount === amount && (
                 <div className="absolute top-2 right-2">
-                  <Check className="w-3.5 h-3.5 text-blue-400" />
+                  <Check className="w-3.5 h-3.5 text-pink-400" />
                 </div>
               )}
-              <Coins className={`w-5 h-5 mx-auto mb-1.5 ${selectedAmount === amount ? 'text-blue-400' : 'text-white/30 group-hover:text-white/50'} transition-colors`} />
-              <p className={`text-lg font-bold ${selectedAmount === amount ? 'text-blue-400' : 'text-white/80'}`}>{amount} tokens</p>
+              <Coins className={`w-5 h-5 mx-auto mb-1.5 ${selectedAmount === amount ? 'text-pink-400' : 'text-white/30 group-hover:text-white/50'} transition-colors`} />
+              <p className={`text-lg font-bold ${selectedAmount === amount ? 'text-pink-400' : 'text-white/80'}`}>{formatPrice(amount)}</p>
               <p className="text-[10px] text-white/30 mt-0.5">{amount} tokens</p>
             </button>
           ))}
@@ -162,7 +169,7 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
             min="1"
             max="10000"
             step="0.01"
-            className="w-full bg-white/5 border border-white/10 rounded-xl pl-14 pr-4 py-4 text-white text-lg font-semibold placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all"
+            className="w-full bg-white/5 border border-white/10 rounded-xl pl-14 pr-4 py-4 text-white text-lg font-semibold placeholder-white/20 focus:outline-none focus:border-pink-500/50 focus:ring-1 focus:ring-pink-500/25 transition-all"
           />
         </div>
       </div>
@@ -173,7 +180,7 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
           <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider">Payment Method</h3>
           <button
             onClick={() => setShowAddCard(true)}
-            className="text-xs text-blue-400 hover:text-blue-300 font-medium flex items-center gap-1 transition-colors"
+            className="text-xs text-pink-400 hover:text-pink-300 font-medium flex items-center gap-1 transition-colors"
           >
             <Plus className="w-3 h-3" /> Add Card
           </button>
@@ -193,7 +200,7 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
               <div
                 key={card.id}
                 className={`flex items-center gap-3 p-4 rounded-xl border transition-all ${
-                  card.is_default ? 'bg-white/10 border-blue-500/30' : 'bg-white/5 border-white/10'
+                  card.is_default ? 'bg-white/10 border-pink-500/30' : 'bg-white/5 border-white/10'
                 }`}
               >
                 <div className={`w-10 h-7 rounded bg-gradient-to-r ${getCardIcon(card.card_type)} flex items-center justify-center`}>
@@ -204,7 +211,7 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
                   <p className="text-xs text-white/30">{card.card_holder} · {card.expiry_month}/{card.expiry_year}</p>
                 </div>
                 {card.is_default && (
-                  <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-blue-500/20 text-blue-400">Default</span>
+                  <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-pink-500/20 text-pink-400">Default</span>
                 )}
               </div>
             ))}
@@ -230,7 +237,7 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
                   value={cardNumber}
                   onChange={e => setCardNumber(formatCardNumber(e.target.value))}
                   placeholder="1234 5678 9012 3456"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 text-sm tracking-wider"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 text-sm tracking-wider"
                 />
               </div>
               <div>
@@ -240,7 +247,7 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
                   value={cardHolder}
                   onChange={e => setCardHolder(e.target.value.toUpperCase())}
                   placeholder="JOHN DOE"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 text-sm uppercase"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 text-sm uppercase"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -251,7 +258,7 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
                     value={cardExpiry}
                     onChange={e => setCardExpiry(formatExpiry(e.target.value))}
                     placeholder="MM/YY"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 text-sm"
                   />
                 </div>
                 <div>
@@ -261,14 +268,14 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
                     value={cardCvv}
                     onChange={e => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
                     placeholder="•••"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 text-sm"
                   />
                 </div>
               </div>
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-xl font-semibold text-sm hover:from-blue-600 hover:to-cyan-600 transition-all disabled:opacity-50 mt-2"
+                className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3 rounded-xl font-semibold text-sm hover:from-pink-600 hover:to-rose-600 transition-all disabled:opacity-50 mt-2"
               >
                 {loading ? 'Adding...' : 'Add Card'}
               </button>
@@ -286,11 +293,11 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
           </div>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-white/50">Processing Fee</span>
-            <span className="text-sm font-semibold text-green-400">0 tokens</span>
+            <span className="text-sm font-semibold text-green-400">Free</span>
           </div>
           <div className="border-t border-white/10 pt-2 mt-2 flex items-center justify-between">
             <span className="text-sm font-semibold text-white/70">Total</span>
-            <span className="text-lg font-bold text-white">{getAmount().toFixed(2)} tokens</span>
+            <span className="text-lg font-bold text-white">{formatPrice(getAmount())}</span>
           </div>
         </div>
       )}
@@ -298,7 +305,7 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
       <button
         onClick={handlePurchase}
         disabled={getAmount() <= 0 || processing || (cards.length === 0)}
-        className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-4 rounded-xl font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg shadow-blue-500/25 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-4 rounded-xl font-semibold hover:from-pink-600 hover:to-rose-600 transition-all shadow-lg shadow-pink-500/25 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {processing ? (
           <>
@@ -308,7 +315,7 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({ onBack }) => {
         ) : (
           <>
             <CreditCard className="w-5 h-5" />
-            {cards.length === 0 ? 'Add a Card First' : `Purchase ${getAmount().toFixed(2)} Tokens`}
+            {cards.length === 0 ? 'Add a Card First' : `Purchase for ${formatPrice(getAmount())}`}
           </>
         )}
       </button>

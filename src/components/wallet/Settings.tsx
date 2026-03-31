@@ -61,7 +61,7 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
 
   const getCardGradient = (type: string) => {
     const gradients: Record<string, string> = {
-      visa: 'from-blue-600 via-blue-700 to-indigo-800',
+      visa: 'from-pink-600 via-pink-700 to-fuchsia-800',
       mastercard: 'from-red-600 via-orange-600 to-yellow-600',
       amex: 'from-slate-600 via-slate-700 to-slate-800',
       discover: 'from-orange-500 via-orange-600 to-amber-600'
@@ -74,7 +74,7 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
   const ToggleSwitch = ({ enabled, onToggle }: { enabled: boolean; onToggle: () => void }) => (
     <button
       onClick={onToggle}
-      className={`relative w-11 h-6 rounded-full transition-colors ${enabled ? 'bg-blue-500' : 'bg-white/10'}`}
+      className={`relative w-11 h-6 rounded-full transition-colors ${enabled ? 'bg-pink-500' : 'bg-white/10'}`}
     >
       <div className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-md transition-transform ${enabled ? 'left-[22px]' : 'left-0.5'}`} />
     </button>
@@ -119,8 +119,8 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
         <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3 px-1">Security</h3>
         <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden divide-y divide-white/5">
           <div className="flex items-center gap-3 p-4">
-            <div className="p-2 rounded-lg bg-blue-400/10">
-              <Lock className="w-4 h-4 text-blue-400" />
+            <div className="p-2 rounded-lg bg-pink-400/10">
+              <Lock className="w-4 h-4 text-pink-400" />
             </div>
             <div className="flex-1">
               <p className="text-sm font-medium text-white/90">PIN Authentication</p>
@@ -139,8 +139,8 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
             <ToggleSwitch enabled={biometricEnabled} onToggle={() => setBiometricEnabled(!biometricEnabled)} />
           </div>
           <div className="flex items-center gap-3 p-4">
-            <div className="p-2 rounded-lg bg-cyan-400/10">
-              <Shield className="w-4 h-4 text-cyan-400" />
+            <div className="p-2 rounded-lg bg-rose-400/10">
+              <Shield className="w-4 h-4 text-rose-400" />
             </div>
             <div className="flex-1">
               <p className="text-sm font-medium text-white/90">Encrypted Storage</p>
@@ -157,7 +157,7 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
           <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Linked Cards</h3>
           <button
             onClick={() => setShowAddCard(true)}
-            className="text-xs text-blue-400 hover:text-blue-300 font-medium flex items-center gap-1"
+            className="text-xs text-pink-400 hover:text-pink-300 font-medium flex items-center gap-1"
           >
             <Plus className="w-3 h-3" /> Add Card
           </button>
@@ -222,8 +222,8 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
             <ToggleSwitch enabled={notificationsEnabled} onToggle={() => setNotificationsEnabled(!notificationsEnabled)} />
           </div>
           <div className="flex items-center gap-3 p-4">
-            <div className="p-2 rounded-lg bg-indigo-400/10">
-              <Moon className="w-4 h-4 text-indigo-400" />
+            <div className="p-2 rounded-lg bg-fuchsia-400/10">
+              <Moon className="w-4 h-4 text-fuchsia-400" />
             </div>
             <div className="flex-1">
               <p className="text-sm font-medium text-white/90">Dark Mode</p>
@@ -328,7 +328,7 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
                   value={cardNumber}
                   onChange={e => setCardNumber(formatCardNumber(e.target.value))}
                   placeholder="1234 5678 9012 3456"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 text-sm tracking-wider"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 text-sm tracking-wider"
                 />
               </div>
               <div>
@@ -338,7 +338,7 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
                   value={cardHolder}
                   onChange={e => setCardHolder(e.target.value.toUpperCase())}
                   placeholder="JOHN DOE"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 text-sm uppercase"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 text-sm uppercase"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -349,7 +349,7 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
                     value={cardExpiry}
                     onChange={e => setCardExpiry(formatExpiry(e.target.value))}
                     placeholder="MM/YY"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 text-sm"
                   />
                 </div>
                 <div>
@@ -359,14 +359,14 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
                     value={cardCvv}
                     onChange={e => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
                     placeholder="•••"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50 text-sm"
                   />
                 </div>
               </div>
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-xl font-semibold text-sm hover:from-blue-600 hover:to-cyan-600 transition-all disabled:opacity-50 mt-2"
+                className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3 rounded-xl font-semibold text-sm hover:from-pink-600 hover:to-rose-600 transition-all disabled:opacity-50 mt-2"
               >
                 {loading ? 'Adding...' : 'Add Card'}
               </button>

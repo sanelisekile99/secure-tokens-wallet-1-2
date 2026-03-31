@@ -184,7 +184,7 @@ const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
         )}
 
         <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-4 max-w-xl">
-          <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-3 text-xs text-cyan-200/80 space-y-1">
+          <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 text-xs text-rose-200/80 space-y-1">
             <p>Static login details:</p>
             <p>Email: {STORE_LOGIN_EMAIL}</p>
             <p>PIN: {STORE_LOGIN_PIN}</p>
@@ -198,7 +198,7 @@ const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
                 value={storeEmail}
                 onChange={(e) => setStoreEmail(e.target.value)}
                 placeholder="Store email"
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50"
+                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-rose-500/50"
               />
             </div>
 
@@ -209,13 +209,13 @@ const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
                 value={storePin}
                 onChange={(e) => setStorePin(e.target.value.replace(/\D/g, '').slice(0, 6))}
                 placeholder="Store PIN"
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50"
+                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-rose-500/50"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-cyan-500 hover:bg-cyan-600 text-white rounded-xl py-3 font-semibold text-sm transition-colors flex items-center justify-center gap-2"
+              className="w-full bg-rose-500 hover:bg-rose-600 text-white rounded-xl py-3 font-semibold text-sm transition-colors flex items-center justify-center gap-2"
             >
               <LogIn className="w-4 h-4" /> Enter Store Portal
             </button>
@@ -274,7 +274,7 @@ const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
 
       <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-4">
         <div className="flex items-center gap-2">
-          <ArrowRightLeft className="w-4 h-4 text-cyan-400" />
+          <ArrowRightLeft className="w-4 h-4 text-rose-400" />
           <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Convert Tokens to Money</h3>
         </div>
 
@@ -288,11 +288,11 @@ const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
             placeholder="0"
             min="0"
             step="0.01"
-            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50"
+            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-rose-500/50"
           />
           <button
             onClick={handleConvert}
-            className="bg-cyan-500 hover:bg-cyan-600 text-white px-5 rounded-xl text-sm font-semibold transition-colors"
+            className="bg-rose-500 hover:bg-rose-600 text-white px-5 rounded-xl text-sm font-semibold transition-colors"
           >
             Convert
           </button>
@@ -301,7 +301,7 @@ const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
 
       <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-4">
         <div className="flex items-center gap-2">
-          <Landmark className="w-4 h-4 text-blue-400" />
+          <Landmark className="w-4 h-4 text-pink-400" />
           <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Transfer to Bank</h3>
         </div>
 
@@ -311,21 +311,21 @@ const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
             value={bankName}
             onChange={(e) => setBankName(e.target.value)}
             placeholder="Bank name"
-            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
+            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50"
           />
           <input
             type="text"
             value={accountName}
             onChange={(e) => setAccountName(e.target.value)}
             placeholder="Account holder"
-            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
+            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50"
           />
           <input
             type="text"
             value={accountNumber}
             onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ''))}
             placeholder="Account number"
-            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
+            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50"
           />
           <div className="flex gap-2">
             <input
@@ -335,11 +335,11 @@ const StorePortal: React.FC<StorePortalProps> = ({ onBack }) => {
               placeholder="Cash amount"
               min="0"
               step="0.01"
-              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
+              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-pink-500/50"
             />
             <button
               onClick={handleTransfer}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-5 rounded-xl text-sm font-semibold transition-colors"
+              className="bg-pink-500 hover:bg-pink-600 text-white px-5 rounded-xl text-sm font-semibold transition-colors"
             >
               Transfer
             </button>

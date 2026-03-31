@@ -7,18 +7,18 @@ interface LandingPageProps {
 
 const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-pink-950 to-slate-900 overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/8 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-rose-500/8 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-fuchsia-500/5 rounded-full blur-3xl" />
       </div>
 
       {/* Navbar */}
       <nav className="relative z-10 flex items-center justify-between px-6 lg:px-12 py-5">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/20">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-400 flex items-center justify-center shadow-lg shadow-pink-500/20">
             <Shield className="w-5 h-5 text-white" />
           </div>
           <span className="text-xl font-bold text-white tracking-tight">Nguni-wallet</span>
@@ -40,13 +40,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       <section className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 pt-16 lg:pt-24 pb-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-6">
+            <div className="inline-flex items-center gap-2 bg-pink-500/10 border border-pink-500/20 rounded-full px-4 py-1.5 mb-6">
               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-xs font-medium text-blue-300">Secure Digital Payments</span>
+              <span className="text-xs font-medium text-pink-300">Secure Digital Payments</span>
             </div>
             <h1 className="text-4xl lg:text-6xl font-bold text-white leading-tight mb-6">
               Pay Anywhere with
-              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"> One-Time </span>
+              <span className="bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent"> One-Time </span>
               Tokens
             </h1>
             <p className="text-lg text-white/40 leading-relaxed mb-8 max-w-lg">
@@ -56,7 +56,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             <div className="flex flex-wrap gap-4">
               <button
                 onClick={onGetStarted}
-                className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg shadow-blue-500/25"
+                className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-pink-600 hover:to-rose-600 transition-all shadow-lg shadow-pink-500/25"
               >
                 Get Started <ArrowRight className="w-5 h-5" />
               </button>
@@ -73,11 +73,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 <span className="text-xs text-white/40">AES-256 Encrypted</span>
               </div>
               <div className="flex items-center gap-2">
-                <Shield className="w-4 h-4 text-blue-400" />
+                <Shield className="w-4 h-4 text-pink-400" />
                 <span className="text-xs text-white/40">PIN Protected</span>
               </div>
               <div className="flex items-center gap-2">
-                <Zap className="w-4 h-4 text-cyan-400" />
+                <Zap className="w-4 h-4 text-rose-400" />
                 <span className="text-xs text-white/40">Instant Payments</span>
               </div>
             </div>
@@ -85,8 +85,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
 
           {/* Hero Visual - Wallet Card */}
           <div className="relative hidden lg:block">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-3xl blur-2xl" />
-            <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-3xl p-8 shadow-2xl border border-white/10">
+            <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-rose-500/20 rounded-3xl blur-2xl" />
+            <div className="relative bg-gradient-to-br from-pink-600 via-pink-700 to-fuchsia-800 rounded-3xl p-8 shadow-2xl border border-white/10">
               <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -translate-y-1/4 translate-x-1/4" />
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-8">
@@ -100,11 +100,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 <p className="text-5xl font-bold text-white mb-8">1,250 tokens</p>
                 <div className="grid grid-cols-3 gap-4">
                   <div className="bg-white/10 rounded-xl p-3 text-center">
-                    <CreditCard className="w-5 h-5 text-blue-300 mx-auto mb-1" />
+                    <CreditCard className="w-5 h-5 text-pink-300 mx-auto mb-1" />
                     <p className="text-[10px] text-white/50">Buy</p>
                   </div>
                   <div className="bg-white/10 rounded-xl p-3 text-center">
-                    <Zap className="w-5 h-5 text-cyan-300 mx-auto mb-1" />
+                    <Zap className="w-5 h-5 text-rose-300 mx-auto mb-1" />
                     <p className="text-[10px] text-white/50">Pay</p>
                   </div>
                   <div className="bg-white/10 rounded-xl p-3 text-center">
@@ -114,8 +114,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 </div>
                 <div className="mt-6 pt-6 border-t border-white/10">
                   <div className="flex items-center gap-3 bg-white/5 rounded-xl p-3">
-                    <div className="p-2 rounded-lg bg-cyan-400/10">
-                      <Zap className="w-4 h-4 text-cyan-400" />
+                    <div className="p-2 rounded-lg bg-rose-400/10">
+                      <Zap className="w-4 h-4 text-rose-400" />
                     </div>
                     <div className="flex-1">
                       <p className="text-sm text-white/80">OTP Generated</p>
@@ -138,9 +138,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { icon: Coins, title: 'Digital Tokens', desc: 'Purchase prepaid tokens with your bank card. Each token represents real monetary value stored securely.', color: 'from-blue-500 to-blue-600' },
-            { icon: Zap, title: 'One-Time OTP', desc: 'Generate 6-digit payment codes that expire in 60 seconds. Each code can only be used once.', color: 'from-cyan-500 to-teal-500' },
-            { icon: Lock, title: 'Bank-Grade Security', desc: 'AES-256 encryption, PIN authentication, and biometric login keep your funds protected.', color: 'from-indigo-500 to-purple-500' },
+            { icon: Coins, title: 'Digital Tokens', desc: 'Purchase prepaid tokens with your bank card. Each token represents real monetary value stored securely.', color: 'from-pink-500 to-pink-600' },
+            { icon: Zap, title: 'One-Time OTP', desc: 'Generate 6-digit payment codes that expire in 60 seconds. Each code can only be used once.', color: 'from-rose-500 to-rose-500' },
+            { icon: Lock, title: 'Bank-Grade Security', desc: 'AES-256 encryption, PIN authentication, and biometric login keep your funds protected.', color: 'from-fuchsia-500 to-purple-500' },
             { icon: CreditCard, title: 'Card Linking', desc: 'Securely link your bank cards for instant token purchases. Supports Visa, Mastercard, and more.', color: 'from-orange-500 to-red-500' },
             { icon: Clock, title: 'Transaction History', desc: 'Complete audit trail of every purchase, payment, and OTP with filtering and search.', color: 'from-purple-500 to-pink-500' },
             { icon: Globe, title: 'Offline Support', desc: 'Works offline with encrypted local storage. Syncs automatically when connectivity returns.', color: 'from-green-500 to-emerald-500' },
@@ -200,8 +200,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                   { icon: Globe, text: 'Secure backend synchronization' },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-blue-500/10">
-                      <item.icon className="w-4 h-4 text-blue-400" />
+                    <div className="p-2 rounded-lg bg-pink-500/10">
+                      <item.icon className="w-4 h-4 text-pink-400" />
                     </div>
                     <span className="text-sm text-white/70">{item.text}</span>
                   </div>
@@ -210,10 +210,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             </div>
             <div className="flex justify-center">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-full blur-3xl" />
-                <div className="relative w-64 h-64 rounded-full bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-white/10 flex items-center justify-center">
-                  <div className="w-40 h-40 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-white/10 flex items-center justify-center">
-                    <Shield className="w-16 h-16 text-blue-400/50" />
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-rose-500/20 rounded-full blur-3xl" />
+                <div className="relative w-64 h-64 rounded-full bg-gradient-to-br from-pink-500/10 to-rose-500/10 border border-white/10 flex items-center justify-center">
+                  <div className="w-40 h-40 rounded-full bg-gradient-to-br from-pink-500/20 to-rose-500/20 border border-white/10 flex items-center justify-center">
+                    <Shield className="w-16 h-16 text-pink-400/50" />
                   </div>
                 </div>
               </div>
@@ -228,7 +228,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
         <p className="text-white/40 mb-8 max-w-lg mx-auto">Create your account in seconds and receive 50 free welcome tokens.</p>
         <button
           onClick={onGetStarted}
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-10 py-4 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg shadow-blue-500/25"
+          className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-10 py-4 rounded-xl font-semibold text-lg hover:from-pink-600 hover:to-rose-600 transition-all shadow-lg shadow-pink-500/25"
         >
           Create Free Account <ArrowRight className="w-5 h-5" />
         </button>
@@ -240,7 +240,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 mb-3">
-                <Shield className="w-5 h-5 text-blue-400" />
+                <Shield className="w-5 h-5 text-pink-400" />
                 <span className="font-bold text-white">Nguni-wallet</span>
               </div>
               <p className="text-xs text-white/30 leading-relaxed">Secure digital payments for the modern world.</p>

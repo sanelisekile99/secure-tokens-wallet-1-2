@@ -39,7 +39,7 @@ const AppLayout: React.FC = () => {
         <LandingPage onGetStarted={() => setShowAuth(true)} />
         <button
           onClick={() => setShowStore(true)}
-          className="fixed bottom-6 right-6 z-50 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-blue-500/30 transition-colors"
+          className="fixed bottom-6 right-6 z-50 bg-pink-500 hover:bg-pink-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-pink-500/30 transition-colors"
         >
           Store Portal
         </button>
@@ -130,7 +130,7 @@ const AppLayout: React.FC = () => {
           <div className="p-6 border-b border-white/5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-400 flex items-center justify-center shadow-lg shadow-pink-500/20">
                   <Shield className="w-5 h-5 text-white" />
                 </div>
                 <div>
@@ -161,7 +161,7 @@ const AppLayout: React.FC = () => {
                   <p className="text-sm font-semibold text-white truncate">{user?.full_name}</p>
                   <p className="text-xs text-white/30 truncate">{user?.email}</p>
                   {isSuperAdmin && (
-                    <span className="inline-flex mt-1 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">
+                    <span className="inline-flex mt-1 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30">
                       Super Admin
                     </span>
                   )}
@@ -184,14 +184,14 @@ const AppLayout: React.FC = () => {
                   onClick={() => handleNavigate(item.id)}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                     currentView === item.id
-                      ? 'bg-blue-500/15 text-blue-400 shadow-lg shadow-blue-500/5'
+                      ? 'bg-pink-500/15 text-pink-400 shadow-lg shadow-pink-500/5'
                       : 'text-white/40 hover:text-white/70 hover:bg-white/5'
                   }`}
                 >
                   <item.icon className="w-[18px] h-[18px]" />
                   <span>{item.label}</span>
                   {currentView === item.id && (
-                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400" />
+                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-pink-400" />
                   )}
                 </button>
               ))}
@@ -224,7 +224,7 @@ const AppLayout: React.FC = () => {
                 <Menu className="w-5 h-5 text-white/70" />
               </button>
               <div className="lg:hidden flex items-center gap-2">
-                <Shield className="w-5 h-5 text-blue-400" />
+                <Shield className="w-5 h-5 text-pink-400" />
                 <span className="font-bold text-white text-sm">Nguni-wallet</span>
               </div>
               <div className="hidden lg:block">
@@ -243,12 +243,12 @@ const AppLayout: React.FC = () => {
             </div>
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center gap-2 bg-white/5 rounded-xl px-4 py-2">
-                <Wallet className="w-4 h-4 text-blue-400" />
+                <Wallet className="w-4 h-4 text-pink-400" />
                 <span className="text-sm font-bold text-white">{formatTokens(balance)}</span>
               </div>
               <button className="relative p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
                 <Bell className="w-5 h-5 text-white/50" />
-                <div className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-blue-500" />
+                <div className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-pink-500" />
               </button>
               <button
                 onClick={() => handleNavigate('settings')}
@@ -276,7 +276,7 @@ const AppLayout: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="md:col-span-1">
                 <div className="flex items-center gap-2 mb-3">
-                  <Shield className="w-5 h-5 text-blue-400" />
+                  <Shield className="w-5 h-5 text-pink-400" />
                   <span className="font-bold text-white">Nguni-wallet</span>
                 </div>
                 <p className="text-xs text-white/30 leading-relaxed">
